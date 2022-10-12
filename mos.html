@@ -1,0 +1,98 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task successfully submit answers -->
+<crowd-form answer-format="flatten-objects">
+    
+    <p><big>Question 1</big></p>
+    <p>Reference recordings:</p>
+    <p>ref 1: 
+        <audio controls="">
+            <!-- Your audio file URLs will be substituted for the "audio_url" variable 
+                  when you publish a batch with a CSV input file containing multiple 
+                  audio file URLs -->
+            <source src="${audio_1_ref_1}" type="audio/mpeg" />
+        </audio>
+    </p>
+    
+    <!-- The crowd-classifier element will create a tool for the Worker to select the 
+          correct answer to your question -->
+    <crowd-classifier 
+        categories="['Excellent - Completely natural speech', 'Good - Mostly natural speech', 'Fair - Equally natural and unnatural speech', 'Poor - Mostly unnatural speech', 'Bad - Completely unnatural speech']"
+        header="How natural (i.e. human-sounding) is this recording?"
+        name="audio-naturalness-1">
+        
+            <classification-target>
+                <audio controls="" style="width: 100%">
+
+                    <!-- Your audio file URLs will be substituted for the "audio_url" variable 
+                          when you publish a batch with a CSV input file containing multiple 
+                          audio file URLs -->
+                    <source src="${audio_url}" type="audio/mpeg" />
+
+                </audio>
+            </classification-target>
+
+        <!-- Use the short-instructions section for quick instructions that the Worker
+              will see while working on the task. Including some basic examples of 
+              good and bad answers here can help get good results. You can include 
+              any HTML here. -->
+        <short-instructions>             
+            <p>
+              Listen to the sample of computer generated speech and assess the quality 
+              of the audio based on how close it is to natural speech.
+            </p>
+            For better results, wear headphones and work in a quiet environment.
+        </short-instructions>
+
+        <!-- Use the full-instructions section for more detailed instructions that the 
+              Worker can open while working on the task. Including more detailed 
+              instructions and additional examples of good and bad answers here can 
+              help get good results. You can include any HTML here. -->
+        <full-instructions>
+            <p>Listen to these examples to get an idea of how to rate:</p>
+            <p>Excellent - Completely natural speech - audio sample 1</p>
+            <p>Good - Mostly natural speech - audio sample 2</p>
+            <p>Fair - Equally natural and unnatural speech - audio sample 3</p>
+            <p>Poor - Mostly unnatural speech - audio sample 4</p>
+            <p>Bad - Completely unnatural speech - audio sample 5</p>
+        </full-instructions> 
+
+    </crowd-classifier>
+    <crowd-classifier 
+        categories="['Excellent - Completely natural speech', 'Good - Mostly natural speech', 'Fair - Equally natural and unnatural speech', 'Poor - Mostly unnatural speech', 'Bad - Completely unnatural speech']"
+        header="How similar is the voice of this recording comparing to the reference recordings?"
+        name="audio-naturalness-2">
+        
+        
+
+        <!-- Use the short-instructions section for quick instructions that the Worker
+              will see while working on the task. Including some basic examples of 
+              good and bad answers here can help get good results. You can include 
+              any HTML here. -->
+        <short-instructions>             
+            <p>
+              Listen to the sample of computer generated speech and assess the quality 
+              of the audio based on how close it is to natural speech.
+            </p>
+            For better results, wear headphones and work in a quiet environment.
+        </short-instructions>
+
+        <!-- Use the full-instructions section for more detailed instructions that the 
+              Worker can open while working on the task. Including more detailed 
+              instructions and additional examples of good and bad answers here can 
+              help get good results. You can include any HTML here. -->
+        <full-instructions>
+            <p>Listen to these examples to get an idea of how to rate:</p>
+            <p>Excellent - Completely natural speech - audio sample 1</p>
+            <p>Good - Mostly natural speech - audio sample 2</p>
+            <p>Fair - Equally natural and unnatural speech - audio sample 3</p>
+            <p>Poor - Mostly unnatural speech - audio sample 4</p>
+            <p>Bad - Completely unnatural speech - audio sample 5</p>
+        </full-instructions> 
+
+    </crowd-classifier>
+</crowd-form>
