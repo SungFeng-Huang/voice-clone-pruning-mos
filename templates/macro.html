@@ -1,0 +1,174 @@
+{% macro recordings(section_id, recording_id, big=false) -%}
+{% if big -%}
+<big>
+{% endif -%}
+<h3>Test Recording {{ section_id }}-{{ recording_id }}</h3>
+<p>
+Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text_{{ section_id }}}</i>):<br>
+<audio controls="">
+  <source src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_{{ section_id }}-{{ recording_id }}}?raw=true" type="audio/mpeg" />
+</audio>
+</p>
+<p>
+Reference recordings (target speaker {{ section_id }}): <br>
+<audio controls="">
+  <source
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref_{{ section_id }}_1}?raw=true" type="audio/mpeg" />
+</audio>
+<audio controls="">
+  <source
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref_{{ section_id }}_2}?raw=true" type="audio/mpeg" />
+</audio>
+</p>
+{% if big -%}
+</big>
+{%- endif %}
+{%- endmacro %}
+
+{% macro speaker_similarity_instruction() -%}
+<h3>Speaker Similarity</h3>
+<p>There are 2 reference recordings of the target speaker and 1 testing audio sample in each question:</p>
+<ul>
+  <li> Please listen carefully to each sample. You must listen to both the reference and the test recordings before selecting your answer. </li>
+  <li> Judge how similar is the testing audio's voice comparing to the target speaker. </li>
+  <li> If the recording sounds <b>very differently with different biological sex</b>, select <b>"Bad - Completely different voice"</b>. </li>
+  <li> If the recording sounds <b>very differently while with the same biological sex</b>, select <b>"Poor - Mostly dissimilar voice"</b>. </li>
+  <li> Note that, an audio sample can be <b>heavily-accented</b> and <b> difficult to understand</b> while being <b>"Excellent - Completely the same voice"</b>. Please use your best judgements. </li>
+</ul>
+{%- endmacro %}
+
+{% macro accent_similarity_instruction() -%}
+<h3>Accent Similarity</h3>
+<p>There are 2 reference recordings of the target speaker and 1 testing audio sample in each question:</p>
+<ul>
+  <li> Please listen carefully to each sample. You must listen to both the reference and the test recordings before selecting your answer. </li>
+  <li> Judge how similar is the testing audio's accent comparing to the target speaker. </li>
+  <li> Note that, an audio sample can <b>sound differently</b> and be <b> difficult to understand</b> while being <b>"Excellent - Completely the same accent"</b>. Please use your best judgements. </li>
+</ul>
+{%- endmacro %}
+
+{% macro naturalness_instruction() -%}
+<h3>Naturalness</h3>
+<ul>
+  <li> You must listen to the entire audio clip before rating. </li>
+  <li> You may play each clip a maximum of three times. </li>
+  <li> You should take <b>fluency</b>, audio <b>quality</b>, and <b>style consistency across sentences</b> into account. </li>
+  <li> Note that, an audio clip can be <b>heavily-accented</b> and <b> difficult to understand</b> while being <b>"Excellent - Completely natural speech"</b>. </li>
+  <li> Note that, an audio clip can be <b>not intelligible and contains missing words</b> while being <b>"Excellent - Completely natural speech"</b>. Please use your best jedgements. </li>
+  <li> For instance, the reference recordings used in speaker similarity questions should be considered <b>"Excellent - Completely natural speech"</b>, even though they might have a heavy accent.
+</ul>
+{%- endmacro %}
+
+{% macro section_render(section) -%}
+<hr>
+
+<br>
+<h1>Section {{section.id}}</h1>
+<p> Note: The reference recordings of each question are the same in this section. </p>
+
+<div>
+  {% for recording in section.recordings -%}
+  <hr style="width:50%;text-align:left;margin-left:0">
+  {{ recordings(section.id, recording.id, true)|indent(8) }}
+  <p> Answer the following 3 questions: </p>
+  <br>
+
+  <h3>Question {{ section.id }}-{{ recording.id }}.1: Speaker Similarity</h3>
+  <crowd-classifier
+      categories="['Excellent - Completely the same voice', 'Good - Mostly similar voice', 'Fair - Equally similar and dissimilar voice', 'Poor - Mostly dissimilar voice', 'Bad - Completely different voice']"
+      header="How similar is the voice of the test recording comparing to the target speaker?"
+      name="audio_{{ section.id }}-{{ recording.id }}_speaker">
+    <classification-target>
+
+      {{ speaker_similarity_instruction()|indent(8) }}
+
+      <hr>
+
+      {{ recordings(section.id, recording.id, false)|indent(8) }}
+
+    </classification-target>
+
+    <short-instructions>
+      <p>
+      Listen to the sample of computer generated speech and assess the similarity of the voice to the target speaker based on the reference recordings.
+      </p>
+      For better results, wear headphones and work in a quiet environment.
+    </short-instructions>
+
+    <full-instructions>
+      <p>Listen to these examples to get an idea of how to rate:</p>
+      <p>Excellent - Completely the same voice - audio sample 1</p>
+      <p>Good - Mostly similar voice - audio sample 2</p>
+      <p>Fair - Equally similar and dissimilar voice - audio sample 3</p>
+      <p>Poor - Mostly dissimilar voice - audio sample 4</p>
+      <p>Bad - Completely different voice - audio sample 5</p>
+    </full-instructions>
+  </crowd-classifier>
+
+  <h3>Question {{ section.id }}-{{ recording.id }}.2: Accent Similarity</h3>
+  <crowd-classifier
+      categories="['Excellent - Completely the same accent', 'Good - Mostly similar accent', 'Fair - Equally similar and dissimilar accent', 'Poor - Mostly dissimilar accent', 'Bad - Completely different accent']"
+      header="How similar is the accent of the test recording comparing to the target speaker?"
+      name="audio_{{ section.id }}-{{ recording.id }}_accent">
+    <classification-target>
+
+      {{ accent_similarity_instruction()|indent(8) }}
+
+      <hr>
+
+      {{ recordings(section.id, recording.id, false)|indent(8) }}
+
+    </classification-target>
+
+    <short-instructions>
+      <p>
+      Listen to the sample of computer generated speech and assess the similarity of the accent to the target speaker based on the reference recordings.
+      </p>
+      For better results, wear headphones and work in a quiet environment.
+    </short-instructions>
+
+    <full-instructions>
+      <p>Listen to these examples to get an idea of how to rate:</p>
+      <p>Excellent - Completely the same accent - audio sample 1</p>
+      <p>Good - Mostly similar accent - audio sample 2</p>
+      <p>Fair - Equally similar and dissimilar accent - audio sample 3</p>
+      <p>Poor - Mostly dissimilar accent - audio sample 4</p>
+      <p>Bad - Completely different accent - audio sample 5</p>
+    </full-instructions>
+  </crowd-classifier>
+
+  <h3>Question {{ section.id }}-{{ recording.id }}.3: Naturalness</h3>
+  <crowd-classifier 
+      categories="['Excellent - Completely natural speech', 'Good - Mostly natural speech', 'Fair - Equally natural and unnatural speech', 'Poor - Mostly unnatural speech', 'Bad - Completely unnatural speech']"
+      header="How natural (i.e. human-sounding) is this recording?"
+      name="audio_1-1_naturalness">
+
+    <classification-target>
+      {{ naturalness_instruction()|indent(8) }}
+
+      <hr>
+
+      {{ recordings(section.id, recording.id, false)|indent(8) }}
+
+    </classification-target>
+
+    <short-instructions>
+      <p>
+      Listen to the sample of computer generated speech and assess the quality 
+      of the audio based on how close it is to natural speech.
+      </p>
+      For better results, wear headphones and work in a quiet environment.
+    </short-instructions>
+
+    <full-instructions>
+      <p>Listen to these examples to get an idea of how to rate:</p>
+      <p>Excellent - Completely natural speech - audio sample 1</p>
+      <p>Good - Mostly natural speech - audio sample 2</p>
+      <p>Fair - Equally natural and unnatural speech - audio sample 3</p>
+      <p>Poor - Mostly unnatural speech - audio sample 4</p>
+      <p>Bad - Completely unnatural speech - audio sample 5</p>
+    </full-instructions>
+  </crowd-classifier>
+  {%- endfor %}
+</div>
+{%- endmacro %}

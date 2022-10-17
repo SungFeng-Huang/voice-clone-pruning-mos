@@ -1,0 +1,27 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+{% from "macro.html" import recordings, speaker_similarity_instruction, accent_similarity_instruction, naturalness_instruction, section_render %}
+
+<!-- You must include crowd-form so that your task successfully submit answers -->
+<crowd-form answer-format="flatten-objects">
+  <h1>Intructions</h1>
+
+  <p>There are 4 sections below, each section corresponds to a target speaker.</p>
+
+  <p>Each section has 9 testing audio clips (real or generated speech) with 3 questions each (speaker similarity and naturalness) to rate. </p>
+
+
+  {{ speaker_similarity_instruction()|indent(2) }}
+  {{ accent_similarity_instruction()|indent(2) }}
+  {{ naturalness_instruction()|indent(2) }}
+
+
+  {% block form_sections -%}
+    {% for section in sections -%}
+      {{ section_render(section)|indent(2) }}
+      
+    {%- endfor %}
+  {%- endblock %}
+
+</crowd-form>
