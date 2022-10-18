@@ -1,7 +1,4 @@
-{% macro recordings(section_id, recording_id, big=false) -%}
-{% if big -%}
-<big>
-{% endif -%}
+{% macro recordings(section_id, recording_id) -%}
 <h3>Test Recording {{ section_id }}-{{ recording_id }}</h3>
 <p>
 Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text_{{ section_id }}}</i>):<br>
@@ -20,9 +17,6 @@ Reference recordings (target speaker {{ section_id }}): <br>
       src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref_{{ section_id }}_2}?raw=true" type="audio/mpeg" />
 </audio>
 </p>
-{% if big -%}
-</big>
-{%- endif %}
 {%- endmacro %}
 
 {% macro speaker_similarity_instruction() -%}
@@ -69,7 +63,9 @@ Reference recordings (target speaker {{ section_id }}): <br>
 <div>
   {% for recording in section.recordings -%}
   <hr style="width:50%;text-align:left;margin-left:0">
-  {{ recordings(section.id, recording.id, true)|indent(8) }}
+  <big>
+  {{ recordings(section.id, recording.id)|indent(8) }}
+  </big>
   <p> Answer the following 3 questions: </p>
   <br>
 
@@ -84,7 +80,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
 
       <hr>
 
-      {{ recordings(section.id, recording.id, false)|indent(8) }}
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 
@@ -116,7 +112,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
 
       <hr>
 
-      {{ recordings(section.id, recording.id, false)|indent(8) }}
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 
@@ -148,7 +144,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
 
       <hr>
 
-      {{ recordings(section.id, recording.id, false)|indent(8) }}
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 

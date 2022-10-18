@@ -1,7 +1,7 @@
 <!-- You must include this JavaScript file -->
 <script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
 
-{% from "macro.html" import recordings, speaker_similarity_instruction, accent_similarity_instruction, naturalness_instruction, section_render %}
+{% from "macro.html.jinja2" import recordings, speaker_similarity_instruction, accent_similarity_instruction, naturalness_instruction, section_render %}
 
 <!-- You must include crowd-form so that your task successfully submit answers -->
 <crowd-form answer-format="flatten-objects">
