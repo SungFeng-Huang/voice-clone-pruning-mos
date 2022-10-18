@@ -1,20 +1,20 @@
 {% macro recordings(section_id, recording_id) -%}
 <h3>Test Recording {{ section_id }}-{{ recording_id }}</h3>
 <p>
-Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text_{{ section_id }}}</i>):<br>
+Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text-{{ section_id }}}</i>):<br>
 <audio controls="">
-  <source src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_{{ section_id }}-{{ recording_id }}}?raw=true" type="audio/mpeg" />
+  <source src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio-{{ section_id }}_{{ recording_id }}}?raw=true" type="audio/mpeg" />
 </audio>
 </p>
 <p>
 Reference recordings (target speaker {{ section_id }}): <br>
 <audio controls="">
   <source
-      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref_{{ section_id }}_1}?raw=true" type="audio/mpeg" />
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref-{{ section_id }}_1}?raw=true" type="audio/mpeg" />
 </audio>
 <audio controls="">
   <source
-      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref_{{ section_id }}_2}?raw=true" type="audio/mpeg" />
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref-{{ section_id }}_2}?raw=true" type="audio/mpeg" />
 </audio>
 </p>
 {%- endmacro %}
@@ -73,7 +73,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
   <crowd-classifier
       categories="['Excellent - Completely the same voice', 'Good - Mostly similar voice', 'Fair - Equally similar and dissimilar voice', 'Poor - Mostly dissimilar voice', 'Bad - Completely different voice']"
       header="How similar is the voice of the test recording comparing to the target speaker?"
-      name="audio_{{ section.id }}-{{ recording.id }}_speaker">
+      name="audio-{{ section.id }}_{{ recording.id }}-speaker">
     <classification-target>
 
       {{ speaker_similarity_instruction()|indent(8) }}
@@ -105,7 +105,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
   <crowd-classifier
       categories="['Excellent - Completely the same accent', 'Good - Mostly similar accent', 'Fair - Equally similar and dissimilar accent', 'Poor - Mostly dissimilar accent', 'Bad - Completely different accent']"
       header="How similar is the accent of the test recording comparing to the target speaker?"
-      name="audio_{{ section.id }}-{{ recording.id }}_accent">
+      name="audio-{{ section.id }}_{{ recording.id }}-accent">
     <classification-target>
 
       {{ accent_similarity_instruction()|indent(8) }}
@@ -137,7 +137,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
   <crowd-classifier 
       categories="['Excellent - Completely natural speech', 'Good - Mostly natural speech', 'Fair - Equally natural and unnatural speech', 'Poor - Mostly unnatural speech', 'Bad - Completely unnatural speech']"
       header="How natural (i.e. human-sounding) is this recording?"
-      name="audio_1-1_naturalness">
+      name="audio-{{ section.id }}_{{ recording.id }}-naturalness">
 
     <classification-target>
       {{ naturalness_instruction()|indent(8) }}
