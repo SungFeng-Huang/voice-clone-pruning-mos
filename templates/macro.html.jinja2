@@ -3,18 +3,19 @@
 <p>
 Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text-{{ section_id }}}</i>):<br>
 <audio controls="">
-  <source src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio-{{ section_id }}_{{ recording_id }}}?raw=true" type="audio/mpeg" />
+  <source
+  src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/mos_audio/${audio-{{ section_id }}_{{ recording_id }}}?raw=true" type="audio/mpeg" />
 </audio>
 </p>
 <p>
 Reference recordings (target speaker {{ section_id }}): <br>
 <audio controls="">
   <source
-      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref-{{ section_id }}_1}?raw=true" type="audio/mpeg" />
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/mos_audio/${audio_ref-{{ section_id }}_1}?raw=true" type="audio/mpeg" />
 </audio>
 <audio controls="">
   <source
-      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/audio/${audio_ref-{{ section_id }}_2}?raw=true" type="audio/mpeg" />
+      src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/mos_audio/${audio_ref-{{ section_id }}_2}?raw=true" type="audio/mpeg" />
 </audio>
 </p>
 {%- endmacro %}
