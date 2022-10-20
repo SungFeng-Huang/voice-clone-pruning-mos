@@ -25,5 +25,5 @@ def generate_html(n_sec=4, n_rec=9):
     return html
 
 if __name__ == "__main__":
-    html = generate_html(4, 9)
+    html = generate_html(2, 9)
     print(html)

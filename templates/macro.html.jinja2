@@ -8,7 +8,7 @@ Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text-{{ section_
 </audio>
 </p>
 <p>
-Reference recordings (target speaker {{ section_id }}): <br>
+Reference recordings (target speaker, same in the whole section {{ section_id }}): <br>
 <audio controls="">
   <source
       src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/mos_audio/${audio_ref-{{ section_id }}_1}?raw=true" type="audio/mpeg" />
@@ -50,7 +50,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
   <li> You should take <b>fluency</b>, audio <b>quality</b>, and <b>style consistency across sentences</b> into account. </li>
   <li> Note that, an audio clip can be <b>heavily-accented</b> and <b> difficult to understand</b> while being <b>"Excellent - Completely natural speech"</b>. </li>
   <li> Note that, an audio clip can be <b>not intelligible and contains missing words</b> while being <b>"Excellent - Completely natural speech"</b>. Please use your best jedgements. </li>
-  <li> For instance, the reference recordings used in speaker similarity questions should be considered <b>"Excellent - Completely natural speech"</b>, even though they might have a heavy accent.
+  <li> For instance, the reference recordings should be considered <b>"Excellent - Completely natural speech"</b>, even though they might have a heavy accent.
 </ul>
 {%- endmacro %}
 
@@ -59,7 +59,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
 
 <br>
 <h1>Section {{section.id}}</h1>
-<p> Note: The reference recordings of each question are the same in this section. </p>
+<p style="color:#FF0000"> Note: The reference recordings of each question are the same in this section. </p>
 
 <div>
   {% for recording in section.recordings -%}
@@ -67,7 +67,12 @@ Reference recordings (target speaker {{ section_id }}): <br>
   <big>
   {{ recordings(section.id, recording.id)|indent(8) }}
   </big>
-  <p> Answer the following 3 questions: </p>
+  <p> Answer the following 3 questions according to the test and reference
+  recordings. (The recordings are also put in each of the questions below just for
+  easier comparison,
+  <i style="color:#FF0000">it is not required to listen to them again in each
+  question.</i> It's opt to you to listen to each recording only once or
+  multiple times for better judgements.) </p>
   <br>
 
   <h3>Question {{ section.id }}-{{ recording.id }}.1: Speaker Similarity</h3>
@@ -80,6 +85,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
       {{ speaker_similarity_instruction()|indent(8) }}
 
       <hr>
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 
@@ -110,6 +116,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
       {{ accent_similarity_instruction()|indent(8) }}
 
       <hr>
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 
@@ -140,6 +147,7 @@ Reference recordings (target speaker {{ section_id }}): <br>
       {{ naturalness_instruction()|indent(8) }}
 
       <hr>
+      {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
 

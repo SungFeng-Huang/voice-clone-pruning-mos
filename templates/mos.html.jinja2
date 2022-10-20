@@ -6,11 +6,40 @@
 <!-- You must include crowd-form so that your task successfully submit answers -->
 <crowd-form answer-format="flatten-objects">
   <h1>Intructions</h1>
+  <p><b style="color:#FF0000">Please read the instructions carefully before answering the questions.</b></p>
 
-  <p>There are 4 sections below, each section corresponds to a target speaker.</p>
+  <p>There are <b>2 sections</b> below, each section with <b>9 testing audio
+  clips and 2 reference recordings</b>
+  correspond to a target speaker.<br>
+  That is, there would be 9+2 audio clips in each of the 2 sections, where
+  <b style="color:#FF0000">the total duration of the recordings in this HIT
+  would be in 0.5 to 1.5 minutes</b>.</p>
 
-  <p>Each section has 9 testing audio clips (real or generated speech) with 3 questions each (speaker similarity and naturalness) to rate. </p>
+  <p>For each testing audio clip (real or generated speech), there are <b>3
+  questions</b> (speaker similarity, accent similarity and naturalness) to
+  rate.<br>
+  Limited to the MTurk UI, each question occupy the page and would make the
+  comparison difficult if the reference recordings only appear once in the
+  beginning of the section.<br>
+  Therefore, for easier comparison, we would <b>repeatedly put the test and reference recordings in
+  each question</b>.<br>
+  If you've listened to the reference recordings in the beginning of each
+  section, or listened to the test recording before its 3 questions,
+  <i style="color:#FF0000">it is not required to listen to them again in each
+  question.</i>
+  It's opt to you to listen to each recording only once at the beginning or
+  multiple times for better judgements.</p>
 
+  <p>Limited to the MTurk UI, each question occupy the page and making the HIT
+  seemed to be very long.<br>
+  However, bare in mind that you should rate <b>according to your 1st impression</b> and
+  don't take too much time thinking.
+  So it won't take too much time to finish it.<br>
+  <b>The total duration of the audio clips is in <font color="red">0.5 to 1.5
+  minutes</font>, and the rest of
+  the time is for you to make your best judgements.</b></p>
+
+  <hr style="width:50%;text-align:left;margin-left:0">
 
   {{ speaker_similarity_instruction()|indent(2) }}
   {{ accent_similarity_instruction()|indent(2) }}

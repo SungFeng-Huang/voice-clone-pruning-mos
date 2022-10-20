@@ -162,20 +162,28 @@ class SpeakerMOS(MOS):
         super().__init__(source_dir, root_dir)
         self.val_ids_per_spk = val_ids_per_spk
         self.val_ids_per_task = val_ids_per_task
+        mos_csv_fname = f"./mos-{val_ids_per_spk}-{val_ids_per_task}-9.csv"
 
-        self.paths = self.sample(531)
-        print(json.dumps(self.paths, indent=4))
-        self.df = self.average(self.paths, 'val_speaker_acc')
-        print(self.df)
-        print(self.df.mean())
-        print(self.df.std())
+        if not os.path.exists("./mos_audio") or not os.path.exists(mos_csv_fname):
+            self.paths = self.sample(531)
+            print(json.dumps(self.paths, indent=4))
+        # self.df = self.average(self.paths, 'val_speaker_acc')
+        # print(self.df)
+        # print(self.df.mean())
+        # print(self.df.std())
         if not os.path.exists("./mos_audio"):
             self.copy_files("./mos_audio", self.paths)
-        if not os.path.exists("./mos-6-4-9.csv"):
+        if not os.path.exists(mos_csv_fname):
             outputs = self.generate_mos_csv(self.paths)
             csv_df = pd.DataFrame(outputs)
-            csv_df.to_csv("./mos-6-4-9.csv", index=False)
+            csv_df.to_csv(mos_csv_fname, index=False)
             print(outputs)
+        else:
+            csv_df = pd.read_csv(mos_csv_fname)
+        durations = self.csv_durations(csv_df)
+        print(min(durations), max(durations))
+        sns.histplot(x=durations)
+        plt.show()
         #
         # import math
         # q_per_csv = math.floor(50 / 4.2)
@@ -183,6 +191,20 @@ class SpeakerMOS(MOS):
         # for i in range(n_csv):
         #     row_slice = slice(i * q_per_csv, (i+1) * q_per_csv)
         #     csv_df[row_slice].to_csv(f"{target_dir}/mos_{i}.csv", index=False)
+    def csv_durations(self, df, prefix="./mos_audio"):
+        durations = []
+
+        def _duration(row):
+            dur = 0
+            for item in tqdm(row, leave=False):
+                if item.endswith(".wav"):
+                    dur += librosa.get_duration(filename=f"{prefix}/{item}")
+            return dur
+
+        for row in tqdm(df.itertuples()):
+            durations.append(_duration(row[1:]))
+
+        return durations
 
     def get_ref_audio_paths(self, dir):
         outputs = []
@@ -353,4 +375,4 @@ if __name__ == "__main__":
     # spk sample
     spk_mos = SpeakerMOS(source_dir, root_dir,
                          val_ids_per_spk=6,
-                         val_ids_per_task=4)
+                         val_ids_per_task=2)
