@@ -8,7 +8,8 @@ Recording {{ section_id }}-{{ recording_id }} (Transcript: <i>${text-{{ section_
 </audio>
 </p>
 <p>
-Reference recordings (target speaker, same in the whole section {{ section_id }}): <br>
+Reference recordings (target speaker, <i style="color:#FF0000">same in the whole
+section {{ section_id }}</i>): <br>
 <audio controls="">
   <source
       src="https://github.com/SungFeng-Huang/voice-clone-pruning-mos/blob/main/mos_audio/${audio_ref-{{ section_id }}_1}?raw=true" type="audio/mpeg" />
@@ -68,7 +69,7 @@ Reference recordings (target speaker, same in the whole section {{ section_id }}
   {{ recordings(section.id, recording.id)|indent(8) }}
   </big>
   <p> Answer the following 3 questions according to the test and reference
-  recordings. (The recordings are also put in each of the questions below just for
+  recordings. (These recordings are also put in each of the questions below just for
   easier comparison,
   <i style="color:#FF0000">it is not required to listen to them again in each
   question.</i> It's opt to you to listen to each recording only once or
@@ -82,9 +83,11 @@ Reference recordings (target speaker, same in the whole section {{ section_id }}
       name="audio-{{ section.id }}_{{ recording.id }}-speaker">
     <classification-target>
 
+      <p style="color:#FF0000">(Repeated)</p>
       {{ speaker_similarity_instruction()|indent(8) }}
 
       <hr>
+      <p style="color:#FF0000">(Repeated)</p>
       {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
@@ -113,9 +116,11 @@ Reference recordings (target speaker, same in the whole section {{ section_id }}
       name="audio-{{ section.id }}_{{ recording.id }}-accent">
     <classification-target>
 
+      <p style="color:#FF0000">(Repeated)</p>
       {{ accent_similarity_instruction()|indent(8) }}
 
       <hr>
+      <p style="color:#FF0000">(Repeated)</p>
       {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
@@ -144,9 +149,11 @@ Reference recordings (target speaker, same in the whole section {{ section_id }}
       name="audio-{{ section.id }}_{{ recording.id }}-naturalness">
 
     <classification-target>
+      <p style="color:#FF0000">(Repeated)</p>
       {{ naturalness_instruction()|indent(8) }}
 
       <hr>
+      <p style="color:#FF0000">(Repeated)</p>
       {{ recordings(section.id, recording.id)|indent(8) }}
 
     </classification-target>
